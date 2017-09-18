@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1505520038 source:d:\data-struct\practice0_1.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1505615128 source:d:\data-struct\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1505572987 source:d:\data-struct\practice1_3.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1505720515 source:d:\data-struct\practice1\practice1_3.c
+	<stdio.h>
+	<stdlib.h>
+	"practice1_3.h"
+
+1505651547 d:\data-struct\practice1\practice1_3.h
+	<string.h>
+	<ctype.h>
+

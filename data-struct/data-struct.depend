@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1504829313 source:d:\data-struct\data-struct\main.c
+	<stdio.h>
+	<stdlib.h>
+	"list.h"
+	"test.h"
+
+1504683734 d:\data-struct\data-struct\list.h
+
+1504683719 source:d:\data-struct\data-struct\list.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"list.h"
+
+1504831988 d:\data-struct\data-struct\test.h
+
