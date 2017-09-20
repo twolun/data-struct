@@ -83,14 +83,17 @@ Status GetTop(Stack S, PElemType * e);
 Status Push(Stack * S, ElemType e);
     // 若分配空间成功，则在S的栈顶插入新的栈顶元素e，并返回TRUE
     // 否则栈不变，返回FALSE
-Status Pop(Stack * S, PElemType * e);
+Status Pop(Stack * S, PElemType e);
     // 若栈不空，则删除S的栈顶元素并以e带回其值，返回TRUE
     // 否则返回FALSE
 void StackTraverse(Stack S, Status(* visit)(PElemType));
     // 从栈顶到栈底依次对S中的每个结点调用函数visit
 
+void PrintStack(Stack S);
+    // 从栈底开始输出
+
 // 结点相关操作
-Status MakeNode(LinkType * p, PElemType e);
+Status MakeNode(LinkType * p, ElemType e);
 
 void FreeNode(LinkType * p);
 // 操作结果：释放由p指向的结点的存储空间
@@ -104,7 +107,7 @@ ElemType Elem(LinkType p);
 LinkType NextNode(LinkType p);
 // 操作结果：返回由p指向结点的后继指针
 
-PElemType MakeElem(PosType curpos, int curstep, int di);
+ElemType MakeElem(PosType curpos, int curstep, int di);
 // 操作结果：生成元素
 
 // PosType操作

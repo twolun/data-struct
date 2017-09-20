@@ -19,6 +19,7 @@ void MainPractice2_9(void) {
 void Interpret(char cmd) {
     char filename[20];
     PPosType start, end;
+    int r, c, ok;
     switch(cmd) {
         case 'c':
         case 'C':
@@ -30,9 +31,19 @@ void Interpret(char cmd) {
             break;
         case 'm':
         case 'M':
-            start = MakePosType(1, 1);
-            end = MakePosType(9, 8);
-            MazePath(&maze, start, end);
+            printf("Please enter the entry: ");
+            scanf("%d,%d", &r,&c);
+            start = MakePosType(r, c);
+            printf("Please enter the out: ");
+            scanf("%d,%d", &r,&c);
+            end = MakePosType(r, c);
+            ok = MazePath(&maze, start, end);
+            if(ok) printf("The pass is been found, enter the 'p' to print it: ");
+            else printf("The pass is not tong..., please change the entry and end.\n");
+//            PrintMaze(maze);
+            break;
+        case 'p':
+        case 'P':
             PrintMaze(maze);
             break;
 
@@ -178,7 +189,7 @@ Status Same(PosType curpos, PosType end) {
 
 void FootPrint(MazeType * maze, PosType curpos) {
     // 走过的节点用'-1'标识
-    maze->arr[curpos.r][curpos.c]= '^';
+    maze->arr[curpos.r][curpos.c]= '*';
 }
 
 void MarkPrint(MazeType * maze, PosType curpos) {
@@ -216,7 +227,7 @@ Status MazePath(MazeType * maze, PPosType start, PPosType end) {
     PosType curpos;
     int curstep = 1;
     Status found = FALSE;
-    PElemType e;
+    ElemType e;
     InitStack(&S);
     curpos = *start;              // 设定当前位置为入口位置
     do {
@@ -224,7 +235,7 @@ Status MazePath(MazeType * maze, PPosType start, PPosType end) {
             // 当前位置可以通过，即是未曾走到过的通道块留下足迹
             FootPrint(maze, curpos);
             e = MakeElem(curpos, curstep, 1);
-            Push(&S, *e);
+            Push(&S, e);
             if(Same(curpos, *end)) found = TRUE;
             else {
                 curpos = NextPos(curpos, 1);        // 下一位置是当前位置的东邻
@@ -233,29 +244,34 @@ Status MazePath(MazeType * maze, PPosType start, PPosType end) {
         } else {
             if(!StackEmpty(S)) {
                 Pop(&S, &e);
-                while(e->di == 4 && !StackEmpty(S)) {
-                    MarkPrint(maze, e->seat);
+                while(e.di == 4 && !StackEmpty(S)) {
+                    MarkPrint(maze, e.seat);
                     Pop(&S, &e);
                     curstep--;
                 }
-                if(e->di < 4) {
-                    e->di++;
-                    Push(&S, *e);        // 换下一个方向探索
-                    curpos = NextPos(e->seat, e->di);
+                if(e.di < 4) {
+                    e.di++;
+                    Push(&S, e);        // 换下一个方向探索
+                    curpos = NextPos(e.seat, e.di);
                 }
             }
         }
 
-        printf("curpos is r: %d, c: %d\n", curpos.r, curpos.c);
-        printf("stack empty is: %d, found is: %d", StackEmpty(S), found);
+//        printf("curpos is r: %d, c: %d\n", curpos.r, curpos.c);
+//        printf("stack empty is: %d, found is: %d", StackEmpty(S), found);
     } while(!StackEmpty(S) && !found);
+    if(found) {
+        printf("\nThe pass is: ");
+        PrintStack(S);
+    }
     return found;
 }
 
 // 栈基本操作
 
 void InitStack(Stack * S) {
-    LinkType ss = (LinkType)malloc(m * n * sizeof(NodeType));
+//    LinkType ss = (LinkType)malloc(m * n * sizeof(NodeType));
+    LinkType ss = (LinkType)malloc(sizeof(NodeType));
     if(!ss) exit(OVERFLOW);
     S->top = S->base = ss;
     S->size = 0;
@@ -267,28 +283,60 @@ Status StackEmpty(Stack S) {
 }
 
 Status Push(Stack * S, ElemType e) {
-//    LinkType pn = (LinkType)malloc(sizeof(NodeType));
-//    if(!pn) exit(OVERFLOW);
-//    pn->data = e;
-//    pn->next = NULL;
-    S->top->data = e;
-    S->top = S->top + 1;
+    LinkType ss;
+    if(MakeNode(&ss, e)) {
+        ss->next = S->top;
+        S->top = ss;
+        S->size++;
+    }
+//    S->top->data = e;
+//    S->top = S->top + 1;
     return TRUE;
 }
-Status Pop(Stack * S, PElemType * e){
+Status Pop(Stack * S, PElemType e){
     // 这个取值有点费劲了
-    (*e) = &((S->top - 1)->data);
-    S->top = S->top - 1;
+//    (*e) = &((S->top - 1)->data);
+//    S->top = S->top - 1;
+    *e = S->top->data;
+    S->top = S->top->next;
+    S->size--;
     return TRUE;
 }
-PElemType MakeElem(PosType curpos, int curstep, int di) {
+void PrintStack(Stack S) {
+    // 怎么从栈底开始输出，要倒一次吧
+    Stack st;
+    ElemType e;
+    InitStack(&st);
+
+    while(S.size) {
+        Pop(&S, &e);
+        Push(&st, e);
+    }
+    while(st.size) {
+        Pop(&st, &e);
+        printf("(%d,%d,%d)", e.seat.r, e.seat.c, e.di);
+    }
+    printf("\n");
+
+}
+
+
+Status MakeNode(LinkType * p, ElemType e) {
+    *p = (LinkType)malloc(sizeof(NodeType));
+    if(!*p) exit(OVERFLOW);
+    (*p)->data = e;
+    (*p)->next = NULL;
+    return TRUE;
+}
+
+ElemType MakeElem(PosType curpos, int curstep, int di) {
     PElemType pe;
     pe = (PElemType)malloc(sizeof(ElemType));
     if(!pe) exit(OVERFLOW);
     pe->seat = curpos;
     pe->step = curstep;
     pe->di = di;
-    return pe;
+    return *pe;
 }
 
 
