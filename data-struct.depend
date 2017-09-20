@@ -4,7 +4,7 @@
 	<stdlib.h>
 	<math.h>
 
-1505615128 source:d:\data-struct\main.c
+1505773442 source:d:\data-struct\main.c
 	<stdio.h>
 	<stdlib.h>
 
@@ -14,12 +14,26 @@
 	<string.h>
 	<ctype.h>
 
-1505720515 source:d:\data-struct\practice1\practice1_3.c
+1505725395 source:d:\data-struct\practice1\practice1_3.c
 	<stdio.h>
 	<stdlib.h>
 	"practice1_3.h"
 
-1505651547 d:\data-struct\practice1\practice1_3.h
+1505725395 d:\data-struct\practice1\practice1_3.h
 	<string.h>
 	<ctype.h>
+
+1505771998 source:d:\data-struct\file-in-out\inout.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1505868937 source:d:\data-struct\practice2\practice2_9.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"practice2_9.h"
+
+1505868092 d:\data-struct\practice2\practice2_9.h
 
