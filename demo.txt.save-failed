@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "practice3_1.h"
+
+HeapSpace sp;       // 所有单词所占的堆空间，初始sp.free = 0
+FILE * fe;
+// 创建新单词
+Status NewWord(WordType * nw, Sequence cha) {
+//    printf("cha size is: %s\n", cha.ch);
+    int i, k;
+    if(sp.free + cha.size >= MAXSIZE) return FALSE; // 存储单词的堆栈已满
+    else {
+        i = sp.free;
+        sp.free = sp.free + cha.size;
+        for(k = 0; k < cha.size; k++) {
+            sp.stores[i + k] = cha.ch[k];
+        }
+        nw->stadr = i;
+        nw->len = cha.size;
+        return TRUE;
+    }
+}

@@ -31,13 +31,49 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="arc.txt">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="arc1.txt" />
+		<Unit filename="arc2.txt" />
+		<Unit filename="arc3.txt" />
+		<Unit filename="demo.txt" />
+		<Unit filename="file-in-out/inout.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="practice1/practice1_3.c">
 			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
 		</Unit>
 		<Unit filename="practice1/practice1_3.h" />
+		<Unit filename="practice2/practice2_9.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="practice2/practice2_9.h" />
+		<Unit filename="practice3/practice3_1.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="practice3/practice3_1.h" />
+		<Unit filename="practice4/practice4_3.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="practice4/practice4_3.h" />
+		<Unit filename="practice5/practice5_5.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="practice5/practice5_5.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
