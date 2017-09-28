@@ -9,6 +9,8 @@
 
 // 全局变量
 #define MAXVTXNUM     20    // 图中最大顶点数
+#define MAXEDGENUM    200   // 边的最大数
+#define maxint 32767
 typedef int Status;
 
 typedef struct {
@@ -29,13 +31,18 @@ typedef struct EdgeNode {
 typedef struct {
     VertexType data;
     EdgePtr firstEdge;      // 指向第一条邻接该顶点的边
+    EdgePtr lastEdge;       // 指向最后一个邻接该顶点的边
 } VNode;                    // 顶点类型
 
 typedef struct {
     VNode Adjmulist[MAXVTXNUM];     // 这不是邻接多重表，这是顶点的顺序表
     int vexNum, edgeNum;            // 图中顶点数和边数
-} GraphType;                        // 图类型
-
+} GraphType;
+                    // 图类型
+typedef struct {
+    EdgeType EdgeList[MAXEDGENUM];   // 存放已访问的边的数组
+    int size;
+} VisitEdgeList;
 // 图的基本操作
 void InitGraph(GraphType * G);
 // 初始化邻接多重表，表示一个空图，G->vexNum = G->edgeNum = 0;
@@ -59,7 +66,8 @@ void DeleteVex(GraphType * G, VertexType v);
 // 从图删除顶点v及所依附于该顶点的边
 void DeleteEdge(GraphType * G, EdgeType e);
 // 从图G中删除边e
-
+Status EdgeVisited(VisitEdgeList VEList, EdgeType et);
+// 判断边是否在已经访问的列表中：VEList[i].ivex = et.ivex && VEList[i].jvex = et.jvex
 
 // 2. 路径类型
 typedef struct {
@@ -72,39 +80,47 @@ typedef struct {
 } PathType;
 
 typedef struct {
-    char * vertices[20];            // 路径中景点的序列
+    char vertices[20][100];            // 路径中景点的序列
     int num;
-}PType;
+} PType;
 
 // 其他辅助函数
 void CreateGraph(GraphType * G, FILE * f);
 // 从文件中读取顶点和边的数据，建立邻接多重表
 
-void GetShortPath(GraphType G, char * sname, char * tname, int * pathlength, PType * pathinfo);
+void GetShortestPath(GraphType G, char * sname, char * tname, int * pathlength, PType * pathinfo);
 // 从景点sname到景点tname的一条最短路径及其长度
 
 void InitPath(PathType * pa);
 // 初始化pa为一条空路径，pa->len = 0;
 void CopyPath(PathType * pa, PathType pb);
 // 复制路径 pa = pb
-void InserPath(PathType * pa, int v, int w);
+void InsertPath(PathType * pa, int v, int w);
 // 在路径中pa中插入一条边(v,w)
 int PathLength(PathType pa);
 // 返回路径pa的长度
 void OutPath(GraphType G, PathType pa, PType * vtxes);
 // 将路径转换为景点名称的序列
+void PrintPathInfo(GraphType G, PType pathinfo);
 
 void Initialization(void);
 void ReadCommand(char * cmd);
 void Interpret(char cmd);
 
-void ShortestPath(GraphType G, int st, int nd, int pathlength, PType * pathinfo);
+void ShortestPath(GraphType G, int st, int nd, int * pathlength, PType * pathinfo);
 
 void fscanfNum(FILE * f, int * vnum, int * ednum);
 // 读取顶点数，边数
 void fscanfVex(FILE * f, char * name, char * info);
 // 读取顶点name, info
 void fscanfEdge(FILE * f, int * ivex, int * jvex, int * length);
+void PrintScenery(char * name);
+// 根据景点名，打印景点信息
+Status CompareStr(char * str1, char * str2);
+// 比较两个字符串是否相等，str1 == str2 返回TRUE，否则返回FALSE
+int MinLength(int * dist, int * flag);
+// 在所有未求得最短路径的顶点中，求dist[i]最小值的i
+
 
 #endif // PRACTICE5_5_H_INCLUDED
 
